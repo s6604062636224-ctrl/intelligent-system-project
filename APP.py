@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-from tensorflow.keras.models import load_model # สำหรับไฟล์ .h5
+
 
 # --- 1. ตั้งค่าหน้าเว็บ ---
 st.set_page_config(page_title="Intelligent System 2568", layout="wide", page_icon="🤖")
@@ -21,9 +21,10 @@ st.markdown("""
 # --- 2. ฟังก์ชันโหลดโมเดล (Caching เพื่อประสิทธิภาพ) ---
 @st.cache_resource
 def load_models():
-    # โหลดโมเดล Employee (ไฟล์ .pkl)
+    # โหลดทั้งสองโมเดลด้วย joblib (ไฟล์ .pkl)
     model_emp = joblib.load('employee_model.pkl')
-    
+    model_auto = joblib.load('automobile_model.pkl') # เปลี่ยนจาก .h5 เป็น .pkl ที่ได้จาก train.py
+    return model_emp, model_auto
     # โหลดโมเดล Automobile (ไฟล์ .h5)
     # หมายเหตุ: หากใช้ GBC ในตอนแรก ให้เซฟเป็น .pkl จะง่ายกว่า 
     # แต่ถ้าเป็น Neural Network แท้ๆ ให้ใช้ load_model
